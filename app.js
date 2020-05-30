@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var compression = require('compression');
 
 //used to parse the cookie header and populate req.cookies
 
@@ -14,7 +15,10 @@ var app = express();
 var mongoose =require('mongoose');
 
 //set up default mongoose connection
-var mongoDB='mongodb+srv://romy:library@cluster0-ogirv.azure.mongodb.net/local_library?retryWrites=true&w=majority';
+//var mongoDB='mongodb+srv://romy:library@cluster0-ogirv.azure.mongodb.net/local_library?retryWrites=true&w=majority';
+var mongoDB = 'mongodb+srv://romy:library@cluster0-mbdj7.mongodb.net/local_library?retryWrites=true';
+
+
 mongoose.connect(mongoDB,{useNewUrlParser:true});
 
 //Get the default connection
@@ -35,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/catalog',catalogRouter);
+app.use(compression()); //Compress all routes
+var helmet = require('helmet');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

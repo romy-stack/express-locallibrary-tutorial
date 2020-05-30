@@ -1,4 +1,5 @@
 var Author=require('../models/author');
+var debug = require('debug')('author');
 
 var async=require('async');
 var Book=require('../models/book');
@@ -54,8 +55,19 @@ exports.author_delete_post=function(req,res){
 }
 
 //display  author update form on get
-exports.author_update_get=function(req,res){
-    res.send('Not implemented -delete get')
+   // Display Author update form on GET
+exports.author_update_get = function(req, res, next) {   
+    
+    req.sanitize('id').escape().trim();
+    Author.findById(req.params.id, function(err, author) {
+        if (err) {
+            debug('update error:' + err);
+            return next(err);
+        }
+        //On success
+        res.render('author_form', { title: 'Update Author', author: author });
+    });
+
 }
 //handle  author update form on post
 exports.author_update_post=function(req,res){
