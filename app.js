@@ -16,8 +16,9 @@ var mongoose =require('mongoose');
 
 //set up default mongoose connection
 //var mongoDB='mongodb+srv://romy:library@cluster0-ogirv.azure.mongodb.net/local_library?retryWrites=true&w=majority';
-var mongoDB = 'mongodb+srv://romy:library@cluster0-mbdj7.mongodb.net/local_library?retryWrites=true';
-
+// var mongoDB = 'mongodb+srv://romy:library@cluster0-mbdj7.mongodb.net/local_library?retryWrites=true';
+var dev_db_url = 'mongodb+srv://romy:library@cluster0-mbdj7.mongodb.net/local_library?retryWrites=true'
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 mongoose.connect(mongoDB,{useNewUrlParser:true});
 
